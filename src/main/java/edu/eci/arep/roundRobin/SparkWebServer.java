@@ -9,7 +9,8 @@ public class SparkWebServer {
 
     public static void main( String[] args ) {
         port(getPort());
-        get("/hello", SparkWebServer::getGreeting);
+        get("/get/hello", SparkWebServer::getGreeting);
+        get("/get/strings", SparkWebServer::uploadAnStringAndGetLastStrings);
     }
 
     private static int getPort() {
@@ -22,5 +23,11 @@ public class SparkWebServer {
     private static String getGreeting(Request request, Response response) {
         response.type("text/html");
         return "Hello, Spark!";
+    }
+
+    private static String uploadAnStringAndGetLastStrings(Request request, Response response) {
+        response.type("application/json");
+        String newString = request.queryParams("newString");
+        return "{newString: " + newString + "}";
     }
 }
