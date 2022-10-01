@@ -19,7 +19,7 @@ public class SparkWebServer {
     public static void main( String[] args ) {
         port(getPort());
         get("/get/hello", SparkWebServer::getGreeting);
-        get("/get/strings", SparkWebServer::uploadAnStringAndGetLastStrings);
+        get("/get/strings", SparkWebServer::uploadAStringAndGetLastStrings);
         get("/get/lastStrings", SparkWebServer::getHistoryOfLastSavedStrings);
     }
 
@@ -35,11 +35,11 @@ public class SparkWebServer {
         return "Hello, Spark!";
     }
 
-    private static String uploadAnStringAndGetLastStrings(Request request, Response response) {
+    private static String uploadAStringAndGetLastStrings(Request request, Response response) {
         response.type("application/json");
         try {
             String newStringToUpload = request.queryParams("newString");
-            return logService.uploadAnStringAndGetLastStrings(newStringToUpload);
+            return logService.uploadAStringAndGetLastStrings(newStringToUpload);
         } catch (IOException e) {
             e.printStackTrace();
             return "{error: " + e.getMessage() + "}";

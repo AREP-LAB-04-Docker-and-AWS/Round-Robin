@@ -22,7 +22,7 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public String uploadAnStringAndGetLastStrings(String newStringToUpload) throws IOException {
+    public String uploadAStringAndGetLastStrings(String newStringToUpload) throws IOException {
         final String PATH = "/get/strings";
         // Creating request
         URL requestUrl = new URL( HOST + ":" + roundRobin.getNext() + PATH + "?newString=" + newStringToUpload);
