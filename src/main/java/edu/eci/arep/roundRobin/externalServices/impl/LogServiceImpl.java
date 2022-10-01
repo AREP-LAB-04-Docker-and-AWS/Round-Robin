@@ -15,15 +15,16 @@ public class LogServiceImpl implements LogService {
 
     private final String HOST;
     private final String PATH;
+    private final RoundRobin roundRobin;
 
     {
         HOST = "http://localhost";
         PATH = "/get/strings";
+        roundRobin = new RoundRobin(getServicePorts());
     }
 
     @Override
     public String uploadAnStringAndGetLastStrings(String newStringToUpload) throws IOException {
-        final RoundRobin roundRobin = new RoundRobin(getServicePorts());
         // Creating request
         URL requestUrl = new URL( HOST + ":" + roundRobin.getNext() + PATH + "?newString=" + newStringToUpload);
         HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
