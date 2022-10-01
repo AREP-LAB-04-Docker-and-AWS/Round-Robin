@@ -14,19 +14,42 @@ import java.util.Arrays;
 public class LogServiceImpl implements LogService {
 
     private final String HOST;
-    private final String PATH;
     private final RoundRobin roundRobin;
 
     {
         HOST = "http://localhost";
-        PATH = "/get/strings";
         roundRobin = new RoundRobin(getServicePorts());
     }
 
     @Override
     public String uploadAnStringAndGetLastStrings(String newStringToUpload) throws IOException {
+        final String PATH = "/get/strings";
         // Creating request
         URL requestUrl = new URL( HOST + ":" + roundRobin.getNext() + PATH + "?newString=" + newStringToUpload);
+        HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+        // Setting request method
+        connection.setRequestMethod("GET");
+        // Setting request header(s)
+        connection.setRequestProperty("content-type", "application/json");
+        // reading response
+        StringBuilder response = new StringBuilder();
+        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        while ((inputLine = input.readLine()) != null) {
+            response.append(inputLine);
+        }
+        // Closing
+        input.close();
+        connection.disconnect();
+
+        return response.toString();
+    }
+
+    @Override
+    public String getHistoryOfLastSavedStrings(String stringsQty) throws IOException {
+        final String PATH = "/get/lastStrings";
+        // Creating request
+        URL requestUrl = new URL( HOST + ":" + roundRobin.getNext() + PATH + "?stringsQty=" + stringsQty);
         HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
         // Setting request method
         connection.setRequestMethod("GET");

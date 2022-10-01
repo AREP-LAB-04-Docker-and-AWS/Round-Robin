@@ -4,5 +4,7 @@ import java.io.IOException;
 
 public interface LogService {
 
-    public String uploadAnStringAndGetLastStrings(String newStringToUpload) throws IOException;
+    String uploadAnStringAndGetLastStrings(String newStringToUpload) throws IOException;
+
+    String getHistoryOfLastSavedStrings(String stringsQty) throws IOException;
 }
